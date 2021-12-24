@@ -118,6 +118,24 @@ public:
 
     void show_error(int connfd, const char *info);
 
+    /**
+     * @brief 从内核时间表删除描述符
+     * 
+     * @param epollfd 
+     * @param fd 
+     */
+    void removefd(int epollfd, int fd);
+
+    /**
+     * @brief 将事件重置为EPOLLONESHOT
+     * 
+     * @param epollfd 
+     * @param fd 
+     * @param ev 
+     * @param TRIGMode 
+     */
+    void modfd(int epollfd, int fd, int ev, int TRIGMode);
+
 public:
     static int *u_pipefd;
     sort_timer_lst m_timeout;

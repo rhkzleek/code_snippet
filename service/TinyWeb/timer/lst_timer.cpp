@@ -245,6 +245,41 @@ void Utils::show_error(int connfd, const char *info)
     close(connfd);
 }
 
+
+
+/**
+ * @brief 从内核时间表删除描述符
+ * 
+ * @param epollfd 
+ * @param fd 
+ */
+void Utils::removefd(int epollfd, int fd)
+{
+    epoll_ctl(epollfd, EPOLL_CTL_DEL, fd, 0);
+    close(fd);
+}
+
+/**
+ * @brief 将事件重置为EPOLLONESHOT
+ * 
+ * @param epollfd 
+ * @param fd 
+ * @param ev 
+ * @param TRIGMode 
+ */
+void Utils::modfd(int epollfd, int fd, int ev, int TRIGMode)
+{
+    epoll_event event;
+    event.data.fd = fd;
+
+    if (1 == TRIGMode)
+        event.events = ev | EPOLLET | EPOLLONESHOT | EPOLLRDHUP;
+    else
+        event.events = ev | EPOLLONESHOT | EPOLLRDHUP;
+
+    epoll_ctl(epollfd, EPOLL_CTL_MOD, fd, &event);
+}
+
 int *Utils::u_pipefd = 0;
 int Utils::u_epollfd = 0;
 
