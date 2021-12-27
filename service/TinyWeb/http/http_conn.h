@@ -123,7 +123,11 @@ private:
     bool add_content_length(int content_length);
     bool add_linger();
     bool add_blank_line();
-
+public:
+    static int m_epollfd;
+    static int m_user_count;
+    MYSQL *mysql;
+    int m_state;  //读为0,写为1
 private:
     int m_socket;
     socketaddr_in m_address;
