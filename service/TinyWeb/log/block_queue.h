@@ -202,7 +202,7 @@ public:
         item = m_array[m_front];
         m_size--;
         m_mutex.unlock();
-        return true
+        return true;
     }
     /**
      * @brief pop时,如果当前队列没有元素,将会等待条件变量(增加了超时处理)

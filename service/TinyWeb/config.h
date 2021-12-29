@@ -1,7 +1,7 @@
 #ifndef __CONFIG_H__
 #define __CONFIG_H__
 #include "config.h"
-#include "WebServer.h"
+#include "webserver.h"
 using namespace std;
 
 class Config

@@ -130,7 +130,7 @@ public:
     int m_state;  //读为0,写为1
 private:
     int m_socket;
-    socketaddr_in m_address;
+    sockaddr_in m_address;
     char m_read_buf[READ_BUFFER_SIZE];
     int m_read_idx;
     int m_checked_idx;

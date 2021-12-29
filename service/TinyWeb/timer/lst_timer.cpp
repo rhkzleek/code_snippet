@@ -89,7 +89,7 @@ void sort_timer_lst::del_timer(util_timer *timer)
     if (timer == tail)
     {
         tail = tail->prev;
-        tail->next = = nullptr;
+        tail->next = nullptr;
         delete timer;
         return;
     }

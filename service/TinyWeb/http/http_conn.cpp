@@ -29,7 +29,7 @@ void http_conn::initmysql_result(connection_pool *connPool)
     }
 
     //从表中搜索完整的结果集
-    MYSQL_RES *result = mysql_stored_result(mysql);
+    MYSQL_RES *result = mysql_store_result(mysql);
 
     //返回结果集中的列数
     int num_fields = mysql_num_fields(result);
@@ -56,10 +56,11 @@ int http_conn::m_epollfd = -1;
  */
 void http_conn::close_conn(bool real_close)
 {
+    Utils util;
     if (real_close && (m_socket != -1))
     {
         LOG_INFO("close fd(%d) connection\n", m_socket);
-        removefd(m_epollfd, m_socket);
+        util.removefd(m_epollfd, m_socket);
         m_sockfd = -1;
         m_user_count--;
     }

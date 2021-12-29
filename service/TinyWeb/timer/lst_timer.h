@@ -39,7 +39,7 @@ class util_timer;
 
 struct client_data
 {
-    scokaddr_in address;
+    sockaddr_in address;
     int sockfd;
     util_timer *timer;
 };
@@ -82,7 +82,7 @@ public:
     Utils();
     ~Utils();
 
-    void init();
+    void init(int timeslot);
     /**
      * @brief 对文件描述符设置非阻塞
      *
@@ -138,7 +138,7 @@ public:
 
 public:
     static int *u_pipefd;
-    sort_timer_lst m_timeout;
+    sort_timer_lst m_timer_lst;
     static int u_epollfd;
     int m_TIMESLOT;
 };
