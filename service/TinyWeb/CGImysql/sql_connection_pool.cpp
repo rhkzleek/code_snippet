@@ -28,13 +28,13 @@ void connection_pool::init(string url, string User, string PassWord, string DBNa
     m_Port = Port;
     m_User = User;
     m_PassWord = PassWord;
-    m_Database = DBName;
+    m_DatabaseName = DBName;
     m_close_log = close_log;
 
     for (int i = 0; i < MaxConn; i++)
     {
-        MYSQL *con = nullptr;
-        con = mysql_init();
+        MYSQL *conn = nullptr;
+        conn = mysql_init();
 
         if (conn == nullptr)
         {
@@ -85,7 +85,7 @@ MYSQL *connection_pool::GetConnection()
  * @return true
  * @return false
  */
-bool connection_pool::ReleaseConnection(MySQL *conn)
+bool connection_pool::ReleaseConnection(MYSQL *conn)
 {
     if (nullptr == conn)
     {
@@ -135,7 +135,7 @@ connection_pool::~connection_pool()
 
 connectionRAII::connectionRAII(MYSQL **SQL, connection_pool *connPool)
 {
-    *SQL = connPool->getConnection();
+    *SQL = connPool->GetConnection();
     conRAII = *SQL;
     poolRAII = connPool;
 }

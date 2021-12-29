@@ -129,7 +129,7 @@ public:
     MYSQL *mysql;
     int m_state;  //读为0,写为1
 private:
-    int m_socket;
+    int m_sockfd;
     sockaddr_in m_address;
     char m_read_buf[READ_BUFFER_SIZE];
     int m_read_idx;

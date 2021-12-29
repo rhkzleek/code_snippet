@@ -95,7 +95,7 @@ void WebServer::eventListen()
     if (0 == m_OPT_LINGER)
     {
         struct linger tmp = {0, 1};
-        setsockopt(m_listenfd, SOL_SOCKET, SO_LINGER, &tmp, sizeof(temp));
+        setsockopt(m_listenfd, SOL_SOCKET, SO_LINGER, &tmp, sizeof(tmp));
     }
     else if (1 == m_OPT_LINGER)
     {
@@ -107,7 +107,7 @@ void WebServer::eventListen()
     struct sockaddr_in address;
     bzero(&address, sizeof(address));
     address.sin_family = AF_INET;
-    adress.sin_addr.s_addr = htonl(INADDR_ANY);
+    address.sin_addr.s_addr = htonl(INADDR_ANY);
     address.sin_port = htons(m_port);
 
     int flag = 1;

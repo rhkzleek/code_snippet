@@ -45,7 +45,7 @@ private:
     std::list<T *> m_workqueue;    //请求队列
     locker m_queuelocker;          //互斥锁
     sem m_queuestat;               //是否需要任务需要处理
-    connection_pool *m_connPoller; //数据库
+    connection_pool *m_connPool; //数据库
     int m_actor_model;             //模型切换
 };
 
@@ -61,7 +61,7 @@ threadpool<T>::threadpool(int actor_model, connection_pool *connPool, int thread
     {
         throw std::exception();
     }
-    for (int i == 0; i < thread_number; ++i)
+    for (int i = 0; i < thread_number; ++i)
     {
         if (pthread_create(m_threads + i, null, worker, this) != 0)
         {

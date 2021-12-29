@@ -1,7 +1,7 @@
 #include "http_conn.h"
 #include <mysql/mysql.h>
 #include <fstream>
-
+Utils util;
 //定义http响应的一些状态信息
 const char *ok_200_title = "OK";
 const char *error_400_title = "Bad Request";
@@ -56,11 +56,10 @@ int http_conn::m_epollfd = -1;
  */
 void http_conn::close_conn(bool real_close)
 {
-    Utils util;
-    if (real_close && (m_socket != -1))
+    if (real_close && (m_sockfd != -1))
     {
-        LOG_INFO("close fd(%d) connection\n", m_socket);
-        util.removefd(m_epollfd, m_socket);
+        LOG_INFO("close fd(%d) connection\n", m_sockfd);
+        util.removefd(m_epollfd, m_sockfd);
         m_sockfd = -1;
         m_user_count--;
     }
@@ -84,7 +83,7 @@ void http_conn::init(int sockfd, const sockaddr_in &addr, char *root, int TRIGMo
     m_sockfd = sockfd;
     m_address = addr;
 
-    addfd(m_epollfd, sockfd, true, m_TRIGMode);
+    util.addfd(m_epollfd, sockfd, true, m_TRIGMode);
     m_user_count++;
 
     //当浏览器出现连接重置时，可能是网站根目录出错或http响应格式出错或者访问的文件中内容完全为空
@@ -248,7 +247,7 @@ http_conn::HTTP_CODE http_conn::parse_request_line(char *text)
     }
 
     m_url += strspn(m_url, " \t");
-    m_version = strspn(m_url, " \t");
+    m_version += strspn(m_url, " \t");
     if (!m_version)
     {
         return BAD_REQUEST;
@@ -514,7 +513,6 @@ void http_conn::unmap()
 
 bool http_conn::write(){
     int temp = 0;
-    Utils util;
     if(bytes_to_send == 0){
         util.modfd(m_epollfd,m_sockfd,EPOLLIN,m_TRIGMode);
         init();
@@ -676,7 +674,6 @@ bool http_conn::process_write(HTTP_CODE ret)
 
 void http_conn::process()
 {
-    Utils util;
     HTTP_CODE read_ret = process_read();
     if (read_ret == NO_REQUEST)
     {
